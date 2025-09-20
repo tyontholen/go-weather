@@ -10,7 +10,7 @@ func usage() {
 }
 
 func main() {
-	if len(os.args) < 2 {
+	if len(os.Args) < 2 {
 		usage()
 		return
 	}
