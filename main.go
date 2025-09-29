@@ -30,7 +30,7 @@ func parseInputs(args []string) (float64, float64, error) {
 		if coords, ok := cityCoords[city]; ok {
 			return coords[0], coords[1], nil
 		}
-		return 0, 0, fmt.Errorf("Error: Unknown city: %s", args[0])
+		return 0, 0, fmt.Errorf("eror: Unknown city: %s", args[0])
 	}
 
 	// if two or more args, try parse the first 2 as latitude & longitude
@@ -46,10 +46,10 @@ func parseInputs(args []string) (float64, float64, error) {
 		if coords, ok := cityCoords[city]; ok {
 			return coords[0], coords[1], nil
 		}
-		return 0, 0, fmt.Errorf("Error: Could njot parse coordinates or find city")
+		return 0, 0, fmt.Errorf("error: could not parse arguments for city")
 
 	}
-	return 0, 0, fmt.Errorf("Error: Not enough arguments")
+	return 0, 0, fmt.Errorf("error: not enough arguments")
 }
 
 func main() {
@@ -60,7 +60,7 @@ func main() {
 
 	lat, lon, err := parseInputs(os.Args[1:])
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println("eror:", err)
 		usage()
 		return
 	}
@@ -73,7 +73,7 @@ func main() {
 
 	cw, err := client.GetCurrentWeather(lat, lon)
 	if err != nil {
-		fmt.Println("Error fetching weather", err)
+		fmt.Println("error fetching weather", err)
 		return
 	}
 
