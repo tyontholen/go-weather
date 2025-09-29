@@ -3,40 +3,38 @@ package weather
 import (
 	"encoding/json"
 	"fmt"
-	"net/url"
 	"net/http"
+	"net/url"
 )
 
 // CurrentWeather struct, the part of the Open-metro response we want
 type CurrentWeather struct {
-	Temperature float64 `json:"temperature"`
-	WindSpeed float64 `json:"windspeed"`
+	Temperature   float64 `json:"temperature"`
+	WindSpeed     float64 `json:"windspeed"`
 	WindDirection float64 `json:"winddirection"`
-	WeatherCode int `json:"weathercode"`
-	Time string `json"time"`
+	WeatherCode   int     `json:"weathercode"`
+	Time          string  `json"time"`
 }
 
-
-//internal struct to decode the api response
+// internal struct to decode the api response
 type openMetroResponse struct {
-	Latitude float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
+	Latitude       float64        `json:"latitude"`
+	Longitude      float64        `json:"longitude"`
 	CurrentWeather CurrentWeather `json:"curent_weather"`
 }
 
 // WeatherClient holds the config for calling the weather API
 // The pointer field for http.Client: *http.Client for practise
 type WeatherClient struct {
-	BaseURL string
+	BaseURL    string
 	HTTPClient *http.Client
 }
-
 
 // Newclient returns a pointer to WeatherClient
 // Returning *Weatherclient is idiomatic when the client holds the state or large fields
 func NewClient() *WeatherClient {
 	return &WeatherClient{
-		BaseURL: "https://api.open-metro.com/v1/forecast",
+		BaseURL:    "https://api.open-metro.com/v1/forecast",
 		HTTPClient: &http.Client{},
 	}
 }
@@ -65,8 +63,8 @@ func (c *WeatherClient) GetCurrentWeather(lat, lon float64) (*CurrentWeather, er
 		return nil, fmt.Errorf("Weather API returned status: %s", res.StatusCode)
 	}
 
-	var om openMetroRes
-	if err := json.NewDecoder(res.Body)Decode(&om); err != nil {
+	var om openMetroResponse
+	if err := json.NewDecoder(res.Body).Decode(&om); err != nil {
 		return nil, err
 	}
 
